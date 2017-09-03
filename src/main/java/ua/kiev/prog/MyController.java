@@ -131,7 +131,7 @@ public class MyController {
             fileZip.delete();
             photosForZip.clear();
         } catch (IOException x) {
-            throw new PhotoErrorException();
+            e.printStackTrace();
         }
 
         return "index";
@@ -153,7 +153,7 @@ public class MyController {
             out.flush();
             out.close();
         } catch (IOException ex) {
-
+              e.printStackTrace();
         }
     }
 
