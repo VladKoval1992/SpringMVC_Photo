@@ -19,13 +19,6 @@
              <input type="submit" value="Показати всі фото"/>
          </form>
 
-         <form action="/dowloand" method="POST">
-             <input type="submit" value = "Скачати ахрів"/>
-         </form>
-
-
-
-
 
       </div>
 
