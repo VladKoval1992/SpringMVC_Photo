@@ -29,14 +29,6 @@ public class MyController {
         return "index";
     }
 
-    @RequestMapping(value = "/dowloand", method = RequestMethod.POST)
-    public String dowloand(Model model) {
-        ArrayList<Long> allphoto = new ArrayList<Long>(photos.keySet());
-        model.addAttribute("allphoto", allphoto);
-        return "zipfille";
-    }
-
-
     @RequestMapping(value = "/add_photo", method = RequestMethod.POST)
     public String onAddPhoto(Model model, @RequestParam MultipartFile photo) {
         if (photo.isEmpty())
@@ -92,7 +84,7 @@ public class MyController {
         return "work _with_photo";
     }
 
-    @RequestMapping(value = "/deletesomephoto", method = RequestMethod.POST)
+    @RequestMapping(value = "/deletesomephoto", params = "delete", method = RequestMethod.POST)
     public String deleteSomePhoto(Model model, @RequestParam("check[]") String [] id) {
         for(int i = 0; i < id.length; i++){
             photos.remove(new Long(id[i]));
@@ -102,8 +94,8 @@ public class MyController {
         return "work _with_photo";
     }
 
-    @RequestMapping(value = "/download/zipfille", method = RequestMethod.POST)
-    public String zipFille(HttpServletResponse response,  @RequestParam("check[]") String [] id) {
+    @RequestMapping(value = "/deletesomephoto", params = "zipfille", method = RequestMethod.POST)
+    public String zipFilledowloand (@RequestParam("check[]") String [] id) {
         if (photos.size() < 1) {
             return "index";
         }
@@ -113,6 +105,14 @@ public class MyController {
         for(int i = 0; i < id.length; i++){
             photosForZip.put(new Long(id[i]), photos.get(new Long(id[i])));
         }
+        return "zipfille";
+    }
+
+
+
+    @RequestMapping(value = "/dowloand", method = RequestMethod.POST)
+    public String zipFille(HttpServletResponse response) {
+
         Long [] fileList = photosForZip.keySet().toArray(new Long[photosForZip.size()]);
         convertFiileToZip (fileList);
         try {
@@ -131,9 +131,10 @@ public class MyController {
             fileZip.delete();
             photosForZip.clear();
         } catch (IOException x) {
-            e.printStackTrace();
-        }
 
+            x.printStackTrace();
+
+        }
         return "index";
     }
 
@@ -152,8 +153,9 @@ public class MyController {
             }
             out.flush();
             out.close();
+
         } catch (IOException ex) {
-              e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 
